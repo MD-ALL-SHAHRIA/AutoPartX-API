@@ -11,6 +11,7 @@ namespace AutoPartX.DAL.EF.Models
         public string Name { get; set; }
 
         public ICollection<Part> Parts { get; set; } = new List<Part>();
+        
 
     }
 }

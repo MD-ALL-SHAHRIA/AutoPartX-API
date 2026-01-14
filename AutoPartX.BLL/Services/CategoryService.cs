@@ -31,8 +31,9 @@ namespace AutoPartX.BLL.Services
         }
 
         
-       public CategoryDTO Get(int id) //find by id
+       public CategoryDTO Get(int id)
         {
+            
             return MapperConfig.GetMapper().Map<CategoryDTO>(_repo.GetById(id));
             
         }

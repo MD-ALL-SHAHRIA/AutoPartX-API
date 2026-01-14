@@ -24,7 +24,7 @@ namespace AutoPartX.BLL.Services
             _repo.Create(part);
         }
 
-        public List<PartDTO> Get()
+        public List<PartDTO> Get() //get all
         {
             var data = _repo.GetAll();
             var mapper = MapperConfig.GetMapper();

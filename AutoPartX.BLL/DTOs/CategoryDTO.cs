@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations; 
 
 namespace AutoPartX.BLL.DTOs
 {
@@ -9,8 +7,8 @@ namespace AutoPartX.BLL.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        
-        public int TotalPartsCount { get; set; }
 
+       
+        public List<PartDTO>? Parts { get; set; } 
     }
 }

@@ -1,41 +1,43 @@
-using AutoPartX.BLL.DTOs;
-using AutoPartX.DAL.Repos;
-using AutoPartX.DAL.EF.Models; 
 using System.Collections.Generic;
+using AutoPartX.BLL.DTOs;
+using AutoPartX.DAL;
+using AutoPartX.DAL.EF.Models;
 
 namespace AutoPartX.BLL.Services
 {
     public class CategoryService
     {
-        private readonly CategoryRepo _repo;
-
-        public CategoryService(CategoryRepo repo)
+        public List<CategoryDTO> Get()
         {
-            _repo = repo;
+            return MapperConfig.GetMapper().Map<List<CategoryDTO>>(DataAccessFactory.CategoryData().GetAll());
+        }
+
+        public CategoryDTO Get(int id)
+        {
+            return MapperConfig.GetMapper().Map<CategoryDTO>(DataAccessFactory.CategoryData().GetById(id));
         }
 
         
+        public CategoryDTO GetWithParts(int id)
+        {
+            return MapperConfig.GetMapper().Map<CategoryDTO>(DataAccessFactory.CategoryData().GetWithParts(id));
+        }
+
         public void Add(CategoryDTO dto)
         {
-            var mapper = MapperConfig.GetMapper();
-            var category = mapper.Map<Category>(dto); 
-            _repo.Add(category); 
+            var data = MapperConfig.GetMapper().Map<Category>(dto);
+            DataAccessFactory.CategoryData().Create(data);
         }
 
-        
-        public List<CategoryDTO>Get()
+        public void Update(CategoryDTO dto)
         {
-            var data = _repo.GetAll();
-            var mapper = MapperConfig.GetMapper();
-            return mapper.Map<List<CategoryDTO>>(data);
+            var data = MapperConfig.GetMapper().Map<Category>(dto);
+            DataAccessFactory.CategoryData().Update(data);
         }
 
-        
-       public CategoryDTO Get(int id)
+        public bool Delete(int id)
         {
-            
-            return MapperConfig.GetMapper().Map<CategoryDTO>(_repo.GetById(id));
-            
+            return DataAccessFactory.CategoryData().Delete(id);
         }
     }
 }

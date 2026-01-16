@@ -1,20 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoPartX.DAL.EF.Models
 {
     public class Part
     {
+        [Key]
         public int Id { get; set; }
-        public string PartName { get; set; } = string.Empty;
-        public string OEMNumber { get; set; } = string.Empty; 
-        public int StockQuantity { get; set; } 
+        [Required]
+        public string Name { get; set; }
+        public string OemNumber { get; set; }
         public decimal Price { get; set; }
-        public DateTime LastRestocked { get; set; } 
-        public int CategoryId { get; set; }
-        public Category? Category { get; set; }
+        public int StockQuantity { get; set; }
 
+        [ForeignKey("Category")]
+        public int CategoryId { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

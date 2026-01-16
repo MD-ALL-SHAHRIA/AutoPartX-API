@@ -1,35 +1,54 @@
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using AutoPartX.DAL.EF;
 using AutoPartX.DAL.EF.Models;
+using AutoPartX.DAL.Interfaces;
 
 namespace AutoPartX.DAL.Repos
 {
-    public class CategoryRepo
+    internal class CategoryRepo : ICategoryRepo
     {
-        public AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public CategoryRepo(AppDbContext context)
         {
             _context = context;
         }
+
+        public void Create(Category obj)
+        {
+            _context.Categories.Add(obj);
+            _context.SaveChanges();
+        }
+
+        public bool Delete(int id)
+        {
+            var data = _context.Categories.Find(id);
+            if (data == null) return false;
+            _context.Categories.Remove(data);
+            return _context.SaveChanges() > 0;
+        }
+
         public List<Category> GetAll()
         {
             return _context.Categories.ToList();
         }
+
         public Category GetById(int id)
         {
             return _context.Categories.Find(id);
         }
 
-        public void Add(Category category)
+        public bool Update(Category obj)
         {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            _context.Categories.Update(obj);
+            return _context.SaveChanges() > 0;
         }
 
+        public Category GetWithParts(int id)
+        {
+            return _context.Categories.Include(c => c.Parts).FirstOrDefault(c => c.Id == id);
+        }
     }
 }

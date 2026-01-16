@@ -16,24 +16,19 @@ namespace AutoPartX.API.Controllers
         }
 
         [HttpGet("all")]
-        public IActionResult Get()
-        {
-            return Ok(_service.Get());
-        }
+        public IActionResult GetAll() => Ok(_service.Get());
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            var data = _service.Get(id);
-            if (data == null) return NotFound("Category not found");
-            return Ok(data);
-        }
+        public IActionResult Get(int id) => Ok(_service.Get(id));
+
+        [HttpGet("{id}/parts")]
+        public IActionResult GetWithParts(int id) => Ok(_service.GetWithParts(id)); 
 
         [HttpPost("create")]
-        public IActionResult Post(CategoryDTO dto)
+        public IActionResult Create(CategoryDTO dto)
         {
             _service.Add(dto);
-            return Ok("Category created successfully");
+            return Ok("Category Created");
         }
     }
 }

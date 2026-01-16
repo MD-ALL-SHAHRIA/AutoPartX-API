@@ -15,60 +15,47 @@ namespace AutoPartX.API.Controllers
             _service = service;
         }
 
-        
         [HttpGet("all")]
         public IActionResult GetAll() => Ok(_service.Get());
 
-        
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            var part = _service.Get(id); 
-            if (part == null) return NotFound("Part not found");
-            return Ok(part);
-        }
+        public IActionResult GetById(int id) => Ok(_service.Get(id));
 
         [HttpPost("add")]
         public IActionResult Create(PartDTO dto)
         {
-            _service.Add(dto); 
+            _service.Add(dto);
             return Ok("Part added successfully");
         }
-
+        
         [HttpPut("update")]
         public IActionResult Update(PartDTO dto)
         {
             _service.Update(dto);
-            return Ok("Part updated successfully");
+            return Ok("Updated");
         }
 
         [HttpDelete("delete/{id}")]
-        public IActionResult Delete(int id)
-        {
-            _service.Delete(id);
-            return Ok("Part deleted");
-        }
+        public IActionResult Delete(int id) => Ok(_service.Delete(id));
 
+        
         [HttpGet("search")]
         public IActionResult Search(string q) => Ok(_service.Search(q));
 
         [HttpGet("price-range")]
-        public IActionResult GetByPrice(decimal min, decimal max) 
-            => Ok(_service.GetByPriceRange(min, max));
+        public IActionResult PriceRange(decimal min, decimal max) => Ok(_service.GetByPriceRange(min, max));
 
         [HttpGet("low-stock")]
-        public IActionResult GetLowStock(int doorway) 
-            => Ok(_service.GetLowStock(doorway));
+        public IActionResult LowStock(int doorway) => Ok(_service.GetLowStock(doorway));
 
-        [HttpGet("inventory-value")]
-        public IActionResult GetTotalValue() => Ok(_service.GetTotalValue());
+        [HttpGet("total-value")]
+        public IActionResult TotalValue() => Ok(_service.GetTotalValue());
 
-        [HttpPatch("update-stock/{id}")]
+        [HttpPost("update-stock")]
         public IActionResult UpdateStock(int id, int qty)
         {
-            var result = _service.UpdateStock(id, qty);
-            if (!result) return BadRequest("Failed to update stock");
-            return Ok("Stock updated");
+             if(_service.UpdateStock(id, qty)) return Ok("Stock updated");
+             return BadRequest("Failed");
         }
     }
 }

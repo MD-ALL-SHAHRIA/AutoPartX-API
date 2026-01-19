@@ -17,5 +17,10 @@ namespace AutoPartX.DAL
         {
             return new PartRepo(db);
         }
+
+        public static IOrderRepo OrderData()
+        {
+        return new OrderRepo(db);
+        }
     }
 }
